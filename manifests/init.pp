@@ -7,7 +7,7 @@
 #   class { 'jmeter': }
 #
 class jmeter() {
-  package { 'openjdk-6-jre-headless':
+  package { 'openjdk-7-jre-headless':
     ensure => present,
   }
 
@@ -16,20 +16,20 @@ class jmeter() {
   }
 
   exec { 'download-jmeter':
-    command => 'wget -P /root http://mirrors.rackhosting.com/apache/jmeter/binaries/apache-jmeter-2.7.tgz',
+    command => 'wget -P /root http://mirror.nexcess.net/apache//jmeter/binaries/apache-jmeter-2.10.tgz',
     creates => '/root/apache-jmeter-2.7.tgz'
   }
 
   exec { 'install-jmeter':
-    command => 'tar xzf /root/apache-jmeter-2.7.tgz && mv apache-jmeter-2.7 jmeter',
+    command => 'tar xzf /root/apache-jmeter-2.10.tgz && mv apache-jmeter-2.10 jmeter',
     cwd     => '/usr/share',
     creates => '/usr/share/jmeter',
     require => Exec['download-jmeter'],
   }
 
   exec { 'download-jmeter-plugins':
-    command => 'wget -P /root http://jmeter-plugins.googlecode.com/files/JMeterPlugins-0.5.4.zip',
-    creates => '/root/JMeterPlugins-0.5.4.zip'
+    command => 'wget -P /root http://jmeter-plugins.org/downloads/file/JMeterPlugins-ExtrasLibs-1.1.2.zip',
+    creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip'
   }
 
   exec { 'install-jmeter-plugins':
