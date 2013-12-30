@@ -16,7 +16,7 @@ class jmeter() {
   }
 
   exec { 'download-jmeter':
-    command => 'wget -P /root http://mirror.nexcess.net/apache//jmeter/binaries/apache-jmeter-2.10.tgz',
+    command => 'wget -P /root http://www.dsgnwrld.com/am/jmeter/binaries/apache-jmeter-2.10.tgz',
     creates => '/root/apache-jmeter-2.10.tgz'
   }
 
