@@ -17,7 +17,7 @@ class jmeter() {
 
   exec { 'download-jmeter':
     command => 'wget -P /root http://mirror.nexcess.net/apache//jmeter/binaries/apache-jmeter-2.10.tgz',
-    creates => '/root/apache-jmeter-2.7.tgz'
+    creates => '/root/apache-jmeter-2.10.tgz'
   }
 
   exec { 'install-jmeter':
@@ -27,15 +27,20 @@ class jmeter() {
     require => Exec['download-jmeter'],
   }
 
-  exec { 'download-jmeter-plugins':
+  exec { 'download-standard-jmeter-plugins':
+    command => 'wget -P /root http://jmeter-plugins.org/downloads/file/JMeterPlugins-Standard-1.1.2.zip',
+    creates => '/root/JMeterPlugins-Standard-1.1.2.zip'
+  }
+  exec { 'download-extra-jmeter-plugins':
     command => 'wget -P /root http://jmeter-plugins.org/downloads/file/JMeterPlugins-ExtrasLibs-1.1.2.zip',
     creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip'
   }
 
   exec { 'install-jmeter-plugins':
-    command => 'unzip -q -d JMeterPlugins JMeterPlugins-0.5.4.zip && mv JMeterPlugins/JMeterPlugins.jar /usr/share/jmeter/lib/ext',
+    command => ['unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'],
     cwd     => '/root',
-    creates => '/usr/share/jmeter/lib/ext/JMeterPlugins.jar',
-    require => [Package['unzip'], Exec['install-jmeter'], Exec['download-jmeter-plugins']],
+    creates => '/usr/share/jmeter/lib/ext/JMeterPlugins-Standard.jar',
+    require => [Package['unzip'], Exec['install-jmeter'], Exec['download-standard-jmeter-plugins']],
   }
+
 }
