@@ -15,13 +15,20 @@ class jmeter() {
     ensure => present,
   }
 
+  package { 'unzip':
+    ensure => present,
+  }
+
   exec { 'download-jmeter':
     command => 'wget -P /root http://www.dsgnwrld.com/am/jmeter/binaries/apache-jmeter-2.10.tgz',
-    creates => '/root/apache-jmeter-2.10.tgz'
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
+    creates => '/root/apache-jmeter-2.10.tgz',
+    require => Package['wget'],
   }
 
   exec { 'install-jmeter':
     command => 'tar xzf /root/apache-jmeter-2.10.tgz && mv apache-jmeter-2.10 jmeter',
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
     cwd     => '/usr/share',
     creates => '/usr/share/jmeter',
     require => Exec['download-jmeter'],
@@ -29,15 +36,20 @@ class jmeter() {
 
   exec { 'download-standard-jmeter-plugins':
     command => 'wget -P /root http://jmeter-plugins.org/downloads/file/JMeterPlugins-Standard-1.1.2.zip',
-    creates => '/root/JMeterPlugins-Standard-1.1.2.zip'
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
+    creates => '/root/JMeterPlugins-Standard-1.1.2.zip',
+    require => Package['wget'],
   }
   exec { 'download-extra-jmeter-plugins':
     command => 'wget -P /root http://jmeter-plugins.org/downloads/file/JMeterPlugins-ExtrasLibs-1.1.2.zip',
-    creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip'
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
+    creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip',
+    require => Package['wget'],
   }
 
   exec { 'install-jmeter-plugins':
     command => ['unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'],
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
     cwd     => '/root',
     creates => '/usr/share/jmeter/lib/ext/JMeterPlugins-Standard.jar',
     require => [Package['unzip'], Exec['install-jmeter'], Exec['download-standard-jmeter-plugins']],
