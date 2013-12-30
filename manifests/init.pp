@@ -15,7 +15,7 @@ class jmeter() {
     ensure => present,
   }
 
-  package { 'unzip':
+  package { 'wget':
     ensure => present,
   }
 
