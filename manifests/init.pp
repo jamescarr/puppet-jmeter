@@ -46,12 +46,11 @@ class jmeter() {
     creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip',
     require => Package['wget'],
   }
-
+  $install_standard = 'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'
+  $install_extras   = 'unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/'
+   
   exec { 'install-jmeter-plugins':
-    command => [
-      'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext',
-      'unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/',
-    ],
+    command => "$install_standard && $install_extras",
     path    => ['/bin', '/usr/bin', '/usr/local/bin'],
     cwd     => '/root',
     creates => '/usr/share/jmeter/lib/ext/JMeterPlugins-Standard.jar',
