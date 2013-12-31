@@ -7,6 +7,10 @@
 #   class { 'jmeter': }
 #
 class jmeter() {
+  $rm_extdir = "rm -rf JMeterPlugins-ExtrasLibs/lib/ext/"
+  $install_standard = 'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'
+  $install_extras   = "unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext && $rm_extdir &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/"
+
   package { 'openjdk-7-jre-headless':
     ensure => present,
   }
@@ -46,9 +50,7 @@ class jmeter() {
     creates => '/root/JMeterPlugins-ExtrasLibs-1.1.2.zip',
     require => Package['wget'],
   }
-  $install_standard = 'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'
-  $install_extras   = "unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext && $rm_extdir &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/"
-  $rm_extdir = "rm -rf JMeterPlugins-ExtrasLibs/lib/ext/"
+
 
   exec { 'install-jmeter-plugins':
     command => "$install_standard && $install_extras",
