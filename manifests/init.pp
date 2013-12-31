@@ -50,7 +50,7 @@ class jmeter() {
   exec { 'install-jmeter-plugins':
     command => [
       'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext',
-      'unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/',
+      'unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext && rm -rf JMeterPlugins-ExtrasLibs/lib/ext/ &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/',
     ],
     path    => ['/bin', '/usr/bin', '/usr/local/bin'],
     cwd     => '/root',
