@@ -8,8 +8,9 @@
 #
 class jmeter() {
   $rm_extdir = "rm -rf JMeterPlugins-ExtrasLibs/lib/ext/"
+  $mv_extlibs = "mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext/"
   $install_standard = 'unzip -q -d JMeterPlugins-Standard JMeterPlugins-Standard-1.1.2.zip && mv JMeterPlugins-Standard/lib/ext/* /usr/share/jmeter/lib/ext'
-  $install_extras   = "unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && mv JMeterPlugins-ExtrasLibs/lib/ext/* /usr/share/jmeter/lib/ext && $rm_extdir &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/"
+  $install_extras   = "unzip -q -d JMeterPlugins-ExtrasLibs JMeterPlugins-ExtrasLibs-1.1.2.zip && $mv_extlibs && $rm_extdir &&  mv JMeterPlugins-ExtrasLibs/lib/* /usr/share/jmeter/lib/"
 
   package { 'openjdk-7-jre-headless':
     ensure => present,
