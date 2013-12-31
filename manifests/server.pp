@@ -6,7 +6,7 @@
 #
 #   class { 'jmeter::server': }
 #
-class jmeter::server($server_ip = '33.33.33.10') {
+class jmeter::server($server_ip = '127.0.0.1') {
   include jmeter
 
   file { '/etc/init.d/jmeter':
@@ -20,6 +20,7 @@ class jmeter::server($server_ip = '33.33.33.10') {
     command     => 'update-rc.d jmeter defaults',
     subscribe   => File['/etc/init.d/jmeter'],
     refreshonly => true,
+    path        => '/usr/sbin',
   }
 
   service { 'jmeter':
